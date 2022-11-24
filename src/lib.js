@@ -1,6 +1,6 @@
 
 function getPatterns(callback) {
-    chrome.storage.local.get(['patterns'], result => {
+    chrome.storage.sync.get(['patterns'], result => {
         let patterns = result['patterns'] || []
         callback(patterns)
     })
@@ -8,7 +8,7 @@ function getPatterns(callback) {
 
 function addPattern(pattern) {
     getPatterns(patterns => {
-        chrome.storage.local.set({
+        chrome.storage.sync.set({
             patterns: patterns.concat(pattern)
         })
     })
@@ -16,21 +16,21 @@ function addPattern(pattern) {
 
 function removePattern(pattern) {
     getPatterns(patterns => {
-        chrome.storage.local.set({
+        chrome.storage.sync.set({
             patterns: patterns.filter(e => e != pattern)
         })
     })
 }
 
 function isRunning(callback) {
-    chrome.storage.local.get(['running'], result => {
+    chrome.storage.sync.get(['running'], result => {
         let running = result['running']
         callback(running)
     })
 }
 
 function setRunning(running) {
-    chrome.storage.local.set({
+    chrome.storage.sync.set({
         running: running
     })
 }

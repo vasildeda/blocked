@@ -24,7 +24,6 @@ function handleLoading(tabId) {
         let url = tabs[0].url;
         if (url) {
             getPatterns(patterns => {
-                console.log(patterns)
                 for (let pattern of patterns) {
                     if (url.includes(pattern)) {
                         doRedirect(tabId)
