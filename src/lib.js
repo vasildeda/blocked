@@ -2,24 +2,22 @@ const storage = chrome.storage.sync
 
 function getPatterns(callback) {
     storage.get(['patterns'], result => {
-        let patterns = result['patterns'] || []
+        const patterns = result['patterns'] || []
         callback(patterns)
     })
 }
 
 function addPattern(pattern) {
     getPatterns(patterns => {
-        storage.set({
-            patterns: patterns.concat(pattern)
-        })
+        const extendedPatterns = patterns.concat(pattern)
+        storage.set({ patterns: extendedPatterns })
     })
 }
 
 function removePattern(pattern) {
     getPatterns(patterns => {
-        storage.set({
-            patterns: patterns.filter(e => e != pattern)
-        })
+        const filteredPatterns = patterns.filter(e => e != pattern)
+        storage.set({ patterns: filteredPatterns })
     })
 }
 
@@ -31,36 +29,38 @@ function isRunning(callback) {
 }
 
 function setRunning(running) {
-    storage.set({
-        running: running
+    storage.set({ running: running })
+}
+
+function getCalls(callback) {
+    storage.get(['calls'], result => {
+        const calls = {
+            ...result['calls'],
+            getPattern(pattern) { return this[pattern] || 0 }
+        }
+        callback(calls)
     })
 }
 
 function getCount(pattern, callback) {
-    storage.get(['calls'], result => {
-        const calls = result['calls'] || {}
-        const patternCalls = calls[pattern] || 0
-        callback(patternCalls)
+    getCalls(calls => {
+        const count = calls.getPattern(pattern)
+        callback(count)
     })
 }
 
 function incrementCount(pattern) {
-    storage.get(['calls'], result => {
-        const calls = result['calls'] || {}
-        calls[pattern] = calls[pattern] || 0
-        calls[pattern] += 1
-
-        storage.set({
-            calls: calls
-        })
+    getCalls(calls => {
+        calls[pattern] = calls.getPattern(pattern) + 1
+        storage.set({ calls: calls })
     })
 }
 
 function getTotal(callback) {
-    storage.get(['calls'], result => {
-        const calls = result['calls'] || {}
+    getCalls(calls => {
         const total = Object
             .values(calls)
+            .filter(v => typeof v !=  'function')
             .reduce((a, b) => a + b)
         callback(total)
     })
