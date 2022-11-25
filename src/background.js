@@ -9,11 +9,13 @@ chrome.runtime.onInstalled.addListener(() => {
     })
 })
 
-function doRedirect() {
+function doRedirect(url, pattern) {
     isRunning(running => {
         if (running) {
+            incrementCount(pattern)
+
             chrome.tabs.update(null, {
-                url: chrome.runtime.getURL("./blocked.html")
+                url: chrome.runtime.getURL("./blocked.html") + "?url=" + url + "&pattern=" + pattern
             });        
         }
     })
@@ -26,7 +28,7 @@ function handleLoading() {
             getPatterns(patterns => {
                 for (let pattern of patterns) {
                     if (url.includes(pattern)) {
-                        doRedirect()
+                        doRedirect(url, pattern)
                     }
                 }
             })

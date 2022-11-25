@@ -34,3 +34,33 @@ function setRunning(running) {
         running: running
     })
 }
+
+function getCount(pattern, callback) {
+    chrome.storage.sync.get(['calls'], result => {
+        const calls = result['calls'] || {}
+        const patternCalls = calls[pattern] || 0
+        callback(patternCalls)
+    })
+}
+
+function incrementCount(pattern) {
+    chrome.storage.sync.get(['calls'], result => {
+        const calls = result['calls'] || {}
+        calls[pattern] = calls[pattern] || 0
+        calls[pattern] += 1
+
+        chrome.storage.sync.set({
+            calls: calls
+        })
+    })
+}
+
+function getTotal(callback) {
+    chrome.storage.sync.get(['calls'], result => {
+        const calls = result['calls'] || {}
+        const total = Object
+            .values(calls)
+            .reduce((a, b) => a + b)
+        callback(total)
+    })
+}
