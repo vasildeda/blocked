@@ -1,28 +1,14 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <style>
-            body {
-                padding: 0;
-                width: 200px;
-            }
-            ul {
-                padding: 0;
-            }
-            #add {
-                text-decoration: none;
-            }
-            #add:hover {
-                text-decoration: underline;
-            }
-            #patterns li:hover {
-                text-decoration: line-through;
-            }
-        </style>
-        
+    <head>
+        <title>Blocked!</title>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body class="popup">
         <h1><input id="running" type="checkbox"/> Blocked!</h1>
+
         <ul id="patterns"></ul>
-        <a id="add" href="#">+ Add</a>
+        <a id="add" href="#">+&nbsp;Add&nbsp;</a>
         <div id="log"></div>
 
         <script src="lib.js"></script>

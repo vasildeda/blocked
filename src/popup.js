@@ -29,22 +29,19 @@ getPatterns(patterns => {
 })
 
 // add button onclick
-document
-    .getElementById('add')
-    .onclick = e => {
-        let pattern = e.target.attributes['data-pattern']
-        addPattern(pattern)
-        reload()
-    }
+const addE = document.getElementById('add')
+addE.onclick = e => {
+    let pattern = e.target.attributes['data-pattern']
+    addPattern(pattern)
+    reload()
+}
 
 // add button setup
 chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-    let addE = document.getElementById('add')
-    
     let pattern = patternFromUrl(tabs[0].url)
     if (pattern) {
         addE.attributes['data-pattern'] = pattern
-        addE.innerHTML += ' ' + pattern
+        addE.innerHTML += pattern
     } else {
         addE.remove()
     }
