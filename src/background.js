@@ -23,7 +23,7 @@ function doRedirect(url, pattern) {
 
 function handleLoading() {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-        let url = tabs[0].url;
+        let url = tabs && tabs[0] && tabs[0].url;
         if (url) {
             getPatterns(patterns => {
                 for (let pattern of patterns) {
