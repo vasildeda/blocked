@@ -1,12 +1,9 @@
 importScripts("lib.js")
 
-chrome.runtime.onInstalled.addListener(() => {    
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-
-        if (changeInfo.status == 'loading' && tab.active) {
-            handleLoading()
-        }
-    })
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status == 'loading' && tab.active) {
+        handleLoading()
+    }
 })
 
 function doRedirect(url, pattern) {
