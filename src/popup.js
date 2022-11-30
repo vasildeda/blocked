@@ -54,13 +54,14 @@ isRunning(running => {
         .checked = running
 })
 
-// running checkbox onclick
+// running toggle
 document
-    .getElementById('running')
+    .getElementsByTagName('h1')[0]
     .onclick = e => {
-        let running = e.target.checked
-        setRunning(running)
-        reload()
+        isRunning(running => {
+            setRunning(!running)
+            reload()
+        })
     }
 
 function log(str) {
